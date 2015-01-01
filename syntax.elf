@@ -1,0 +1,46 @@
+%{ syntax.elf }%
+
+%% expressions (terms)
+exp : type.  %name exp E.
+
+%% types
+typ : type.  %name typ T.
+
+%% nats
+nat : type.  %name nat N.
+z : nat.
+s : nat -> nat.
+%worlds () (nat).
+
+%% characters
+char : type.
+a : char.
+b : char.
+c : char.
+%worlds () (char).
+
+%% strings
+str : type.  %name str S.
+eps : str. %% epsilon
+%% char prepend operation
+, : char -> str -> str. %infix right 10 ,.
+%worlds () (str).
+
+%% Auxilary judgments for wrapping objects (values) as expressions
+enat : nat -> exp.
+estr : str -> exp.
+
+%% Define expressions
+add : exp -> exp -> exp.
+cat : exp -> exp -> exp.
+let : exp -> (exp -> exp) -> exp.
+len : exp -> exp.
+
+%block exp-block : block {x:exp}.
+%worlds (exp-block) (exp).
+
+%% Define types
+num : typ.
+string : typ.
+%worlds () (typ).
+

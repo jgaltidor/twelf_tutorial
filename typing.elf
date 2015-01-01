@@ -1,0 +1,27 @@
+%{ typing.elf }%
+%% Typing rules (Static Semantics)
+
+%% judgment relation expression to its types.
+of : exp -> typ -> type.  %name of O.
+%mode of +E -T.
+
+of/nat: of (enat N) num.
+of/str: of (estr S) string.
+
+of/add : of (add E1 E2) num
+  <- of E1 num
+  <- of E2 num.
+
+of/cat : of (cat E1 E2) string
+  <- of E1 string
+  <- of E2 string.
+
+of/len : of (len E) num <- of E string.
+
+of/let : of (let E1 ([x] E2 x)) T2
+  <- of E1 T1
+  <- ({x: exp} of x T1 -> of (E2 x) T2).
+
+%block of-block : some {T:typ} block {x: exp}{_: of x T}.
+%worlds (of-block) (of _ _).
+

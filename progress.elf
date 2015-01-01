@@ -1,0 +1,155 @@
+%{ progress.elf }%
+
+not_stuck : exp -> type.  %name not_stuck NS.
+
+not_stuck/val  : not_stuck E <- value E.
+not_stuck/step : not_stuck E <- step E E'.
+
+%worlds () (not_stuck _).
+
+% Progress Theorem
+progress : of E T -> not_stuck E -> type.
+%mode progress +O -NS.
+
+% %prove 3 E-T (progress E-T _). % Twelf can't find proof.
+
+%% Manually proving the progress theorem
+
+%% Handle trivial value case
+- : progress of/nat (not_stuck/val value/nat).
+- : progress of/str (not_stuck/val value/str).
+
+%% of/add case
+
+%% Lemma for nested case analysis (output factoring)
+progress-add : of E1 num ->
+               of E2 num ->
+               not_stuck E1 ->
+               not_stuck E2 ->
+         % ------------------------------
+               not_stuck (add E1 E2) ->
+               type.
+
+%mode progress-add +O1 +O2 +NS1 +NS2 -NS'.
+
+- : progress-add _ _ (not_stuck/step E1~>E1') _
+     (not_stuck/step (step/add1 E1~>E1')).
+
+- : progress-add _ _ _ (not_stuck/step E2~>E2')
+     (not_stuck/step (step/add2 E2~>E2')).
+
+- : progress-add _ _
+     (not_stuck/val (_: value (enat N1)))
+     (not_stuck/val (_: value (enat N2)))
+     (not_stuck/step (step/cadd N1+N2=N3))
+       <- cadd-total N1 N2 _ N1+N2=N3.
+
+%worlds () (progress-add  _ _ NS1 NS2 %{=>}% NS').
+%total NS1 (progress-add _ _ NS1 _ _).
+
+%% Finally prove progress for of/add
+
+- : progress
+      (of/add E2-num E1-num) NS'
+       <- progress E1-num NS1
+       <- progress E2-num NS2
+       <- progress-add E1-num E2-num NS1 NS2 NS'.
+
+%% of/cat case
+
+%% Lemma for nested case analysis (output factoring)
+progress-cat : of E1 string ->
+               of E2 string ->
+               not_stuck E1 ->
+               not_stuck E2 ->
+         % -----------------------
+               not_stuck (cat E1 E2) ->
+               type.
+
+%mode progress-cat +O1 +O2 +NS1 +NS2 -NS'.
+
+- : progress-cat _ _ (not_stuck/step E1~>E1') _
+     (not_stuck/step (step/cat1 E1~>E1')).
+
+- : progress-cat _ _ _ (not_stuck/step E2~>E2')
+     (not_stuck/step (step/cat2 E2~>E2')).
+
+- : progress-cat _ _
+     (not_stuck/val (_: value (estr N1)))
+     (not_stuck/val (_: value (estr N2)))
+     (not_stuck/step (step/ccat N1^N2=N3))
+       <- ccat-total N1 N2 _ N1^N2=N3.
+
+%worlds () (progress-cat  _ _ NS1 NS2 %{=>}% NS').
+%total NS1 (progress-cat _ _ NS1 _ _).
+
+%% Finally prove progress for of/cat
+
+- : progress
+      (of/cat E2-string E1-string) NS'
+       <- progress E1-string NS1
+       <- progress E2-string NS2
+       <- progress-cat E1-string E2-string NS1 NS2 NS'.
+
+%% of/len case
+
+%% Lemma for nested case analysis (output factoring)
+progress-len : of E string ->
+               not_stuck E ->
+           % ----------------------
+               not_stuck (len E) ->
+               type.
+
+%mode progress-len +O +NS -NS'.
+
+- : progress-len _
+      (not_stuck/val (_: value (estr S)))
+      (not_stuck/step (step/lenV N=|S|))
+        <- clen-total S _ N=|S|.
+
+- : progress-len _
+      (not_stuck/step E~>E')
+      (not_stuck/step (step/lenE E~>E')).
+
+%worlds () (progress-len _ NS %{=>}% NS').
+%total NS (progress-len _ NS _).
+
+%% Finally prove progress for of/len
+- : progress (of/len E-string) NS
+      <- progress E-string E-NS
+      <- progress-len E-string E-NS NS.
+
+
+%% of/let case
+
+%% Lemma for nested case analysis (output factoring)
+progress-let : {E2 : (exp -> exp)}
+               not_stuck E1 ->
+           % -------------------------------------
+               not_stuck (let E1 ([x] E2 x)) ->
+               type.
+
+%mode progress-let +E2 +NS -NS'.
+
+- : progress-let _
+      (not_stuck/val E1-val)
+      (not_stuck/step (step/letV E1-val)).
+
+- : progress-let _
+      (not_stuck/step E1~>E1')
+      (not_stuck/step (step/letE E1~>E1')).
+
+%worlds () (progress-let _ NS %{=>}% NS').
+%total NS (progress-let _ NS _).
+
+%% Finally prove progress for of/len
+- : progress (of/let ([x] [dx] E2-T2 x dx) E1-T1) NS
+      <- progress E1-T1 E1-NS
+      <- progress-let _ E1-NS NS.
+
+%% Handled all cases for progress.
+%% Now can check proof of progress!
+
+%worlds () (progress O %{=>}% NS).
+%total O (progress O _).
+
