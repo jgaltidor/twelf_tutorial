@@ -1,0 +1,104 @@
+%{ preservation.elf }%
+
+%{
+% More verbose theorem specification
+
+%theorem  
+preservation :
+  forall* {E} {E'} {T}
+  forall {O:of E T} {S:step E E'}
+  exists {O':of E' T}
+  true.
+}%
+
+preservation : of E T -> step E E' -> of E' T -> type.
+%mode preservation +O +S -O'.
+
+% %prove 3 E-T (preservation E-T _ _).
+
+%% Proving the preservation theorem
+
+%% of/add case
+
+- : preservation
+      (of/add E2-num E1-num)
+      (step/add1 E1~>E1')
+      (of/add E2-num E1'-num)
+        <- preservation E1-num E1~>E1' E1'-num.
+
+%{
+% Proof with explicit types
+
+- : {E1-num  : of E1 num}
+    {E2-num  : of E2 num}
+    {E1~>E1' : step E1 E1'}
+    preservation E1-num E1~>E1' E1'-num
+      -> preservation ((of/add E2-num E1-num)  : (of (add E1 E2) num))
+                      ((step/add1 E1~>E1')     : (step (add E1 E2) (add E1' E2)))
+                      ((of/add E2-num E1'-num) : (of (add E1' E2) num)).
+}%
+
+%{
+% Invalid proof with non-ground terms
+
+- : {E1-num  : of E1 num}
+    {E2-num  : of E2 num}
+    {E1~>E1' : step E1 E1'}
+    % Next term is an invalid assumption
+    % (not derived from premises of preservation)
+    {E1'-num : of E1' num}
+     preservation (of/add E2-num E1-num)
+                  (step/add1 E1~>E1')
+                  (of/add E2-num E1'-num).
+}%
+
+- : preservation
+      (of/add E2-num E1-num)
+      (step/add2 E2~>E2')
+      (of/add E2'-num E1-num)
+        <- preservation E2-num E2~>E2' E2'-num.
+
+- : preservation (of/add _ _) (step/cadd _) of/nat.
+
+%% of/cat case
+
+- : preservation
+      (of/cat E2-str E1-str)
+      (step/cat1 E1~>E1')
+      (of/cat E2-str E1'-str)
+        <- preservation E1-str E1~>E1' E1'-str.
+
+- : preservation
+      (of/cat E2-str E1-str)
+      (step/cat2 E2~>E2')
+      (of/cat E2'-str E1-str)
+        <- preservation E2-str E2~>E2' E2'-str.
+
+- : preservation (of/cat _ _) (step/ccat _) of/str.
+
+%% of/len case
+
+- : preservation
+      (of/len E-str)
+      (step/lenE E~>E')
+      (of/len E'-str)
+        <- preservation E-str E~>E' E'-str.
+
+- : preservation (of/len _) (step/lenV _) of/nat.
+
+%% of/let case
+
+- : preservation
+      (of/let ([x] [dx] E2-T2 x dx) E1-T1)
+      (step/letE E1~>E1')
+      (of/let ([x] [dx] E2-T2 x dx) E1'-T1)
+        <- preservation E1-T1 E1~>E1' E1'-T1.
+
+- : preservation
+      (of/let ([x] [dx] E2-T2 x dx) E1-T1)
+      (step/letV (_: value E1))
+      (E2-T2 E1 E1-T1).
+
+%worlds () (preservation _ _ _).
+%total E-T (preservation E-T _ _).
+

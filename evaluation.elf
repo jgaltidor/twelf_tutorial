@@ -1,0 +1,103 @@
+%{ evaluation.elf }%
+%% Dynamic semantics
+
+%% Define auxilary definitions for computing addition and concatenation
+
+cadd : nat -> nat -> nat -> type.
+%mode cadd +M +N -P.
+cadd/z : cadd z N N.
+cadd/s : cadd (s M) N (s P) <- cadd M N P.
+
+%% Check cadd is a total function
+%worlds () (cadd _ _ _).
+%total M (cadd M _ _).
+
+ccat : str -> str -> str -> type.
+%mode ccat +S1 +S2 -S3.
+ccat/eps : ccat eps S S.
+ccat/,   : ccat (C , S1) S2 (C , S3) <- ccat S1 S2 S3.
+
+%% Check ccat is a total function
+%worlds () (ccat _ _ _).
+%total S (ccat S _ _).
+
+clen : str -> nat -> type.
+%mode clen +S -N.
+clen/eps : clen eps z.
+clen/,   : clen (C , S) (s N) <- clen S N.
+
+%% Check clen is a total function
+%worlds () (clen _ _).
+%total S (clen S _).
+
+
+%% Lemma needed for getting access to derivations
+%% of cadd given its inputs
+cadd-total : {N1:nat} {N2:nat} {N3:nat} cadd N1 N2 N3 -> type.
+%mode cadd-total +N1 +N2 -N3 -P.
+
+- : cadd-total z N N cadd/z.
+- : cadd-total (s N1) N2 (s N3) (cadd/s P)
+      <- cadd-total N1 N2 N3 P.
+
+%worlds () (cadd-total N1 N2 N3 N1+N2=N3).
+%total N1 (cadd-total N1 _ _ _).
+
+
+ccat-total : {S1:str} {S2:str} {S3:str} ccat S1 S2 S3 -> type.
+%mode ccat-total +S1 +S2 -S3 -P.
+
+- : ccat-total eps S S ccat/eps.
+- : ccat-total (C , S1) S2 (C , S3) (ccat/, P)
+      <- ccat-total S1 S2 S3 P.
+%worlds () (ccat-total S1 S2 S3 S1^S2=S3).
+%total S1 (ccat-total S1 _ _ _).
+
+clen-total : {S:str} {N:nat} clen S N -> type.
+%mode clen-total +S -N -P.
+
+- : clen-total eps z clen/eps.
+- : clen-total (C , S) (s N) (clen/, P) <- clen-total S N P.
+%worlds () (clen-total _ _ _).
+%total S (clen-total S _ _).
+
+%% Define values to allow eager evaluation and determine final state
+value: exp -> type.  %name value V.
+%mode value +E.
+value/nat : value (enat _).
+value/str : value (estr _).
+%worlds () (value _).
+
+%% Evaluation step
+step : exp -> exp -> type.  %name step S.
+%mode step +E -E'.
+
+%% add
+step/add1 : step (add E1 E2) (add E1' E2)
+  <- step E1 E1'.
+step/add2 : step (add (enat N1) E2) (add (enat N1) E2')
+  <- step E2 E2'.
+step/cadd : step (add (enat N1) (enat N2)) (enat N3)
+  <- cadd N1 N2 N3.
+
+%% cat
+step/cat1 : step (cat E1 E2) (cat E1' E2)
+  <- step E1 E1'.
+step/cat2 : step (cat (estr S1) E2) (cat (estr S1) E2')
+  <- step E2 E2'.
+step/ccat : step (cat (estr S1) (estr S2)) (estr S3)
+  <- ccat S1 S2 S3.
+
+%% len
+step/lenE : step (len E) (len E') <- step E E'. 
+step/lenV : step (len (estr S)) (enat N)
+  <- clen S N.
+
+%% let
+step/letE : step (let E1 ([x] E2 x)) (let E1' ([x] E2 x))
+  <- step E1 E1'.
+step/letV : step (let E1 ([x] E2 x)) (E2 E1)
+  <- value E1.
+
+%worlds () (step _ _).
+
