@@ -32,7 +32,7 @@ Specifically, this package contains a Twelf encoding of
  * [`sources.cfg`](sources.cfg):
     Tells Twelf the files to read and the order in which to process them.
  * [`syntax.elf`](syntax.elf):
-    Twelf encoding of *Minilang*
+    Twelf encoding of *Minilang*'s syntax.
  * [`typing.elf`](typing.elf):
     Twelf encoding of *Minilang*'s typing rules or static semantics.
  * [`evaluation.elf`](evaluation.elf):
