@@ -12,9 +12,10 @@ about formal languages and deductive logics.
 Contents
 ---------
 This package is a tutorial on Twelf and type theory.
-Specifically, this package contains a Twelf encoding of
-*Minilang*, a language of number and strings.
-*Minilang* is defined in file
+Concepts are presented using a *Twelf encoding* of
+programming language *Minilang*.
+*Minilang* is a language of number and strings
+that is rigorously defined in file
 [`typetheory_paper.pdf`](typetheory_paper.pdf).
 
 ### Documentation
