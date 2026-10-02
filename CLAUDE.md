@@ -1,0 +1,38 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## What this is
+
+A tutorial on Twelf and type theory: a Twelf (LF) encoding of *MiniLang*, a small language of numbers and strings, together with machine-checked proofs of type safety (preservation and progress). The PDFs (`typetheory_paper.pdf`, `typetheory_slides.pdf`, `twelf_slides.pdf`) are prebuilt; the paper's LaTeX source lives in a separate repo (github.com/jgaltidor/typetheory_paper), so don't try to rebuild or edit them here.
+
+## Checking the proofs
+
+There is no build system; "building" means having Twelf typecheck the files. Twelf is installed separately (https://twelf.org/download/). From `twelf-server` in the repo root:
+
+```
+make sources.cfg          % load and check all core files in order
+loadFile test_typing.elf  % optional: example derivations (%solve)
+loadFile progress_testing.elf
+```
+
+`sources.cfg` sets the load order: `syntax.elf` → `typing.elf` → `evaluation.elf` → `preservation.elf` → `progress.elf`. Each file depends on the ones before it. The two test files are deliberately left out of `sources.cfg` and must be loaded after it.
+
+A file "passes" when every `%worlds`/`%total` declaration is accepted. That is how Twelf checks that a relation is a total function (and so a valid proof of a ∀∃ theorem).
+
+## Architecture of the encoding
+
+- **Syntax** (`syntax.elf`): `exp`, `typ`, `nat`, `str` (with infix `,` for char-cons). Values are wrapped into expressions with `enat`/`estr`. `let` uses higher-order abstract syntax (`let : exp -> (exp -> exp) -> exp`), so there are no explicit variables or substitution. Substitution is meta-level application (`E2 E1` in `step/letV`).
+- **Static semantics** (`typing.elf`): judgment `of E T`. The `of/let` premise is hypothetical (`{x:exp} of x T1 -> of (E2 x) T2`), which is why `of-block` is declared for its worlds.
+- **Dynamic semantics** (`evaluation.elf`): small-step `step E E'` with left-to-right eager evaluation, plus `value`. Primitive operations are the relations `cadd`/`ccat`/`clen`. Their `*-total` lemmas (`cadd-total`, etc.) exist so that progress can *produce* a derivation for given inputs.
+- **Theorems** are type families whose `%mode` marks inputs (∀) and outputs (∃). Each `- :` clause is one proof case, `<-` premises are inductive calls or lemmas, and `%total` checks coverage and termination.
+  - `preservation.elf`: `preservation : of E T -> step E E' -> of E' T -> type`, by induction on the typing derivation.
+  - `progress.elf`: `progress : of E T -> not_stuck E -> type`. Nested case analysis on sub-results uses separate "output factoring" lemmas (`progress-add`, `progress-cat`, `progress-len`, `progress-let`), because Twelf can't case-split on an output inside one clause.
+
+Adding a new expression form means touching every layer: a constructor in `syntax.elf`, an `of/*` rule, `step/*` rules (and a primitive relation with a `-total` lemma if needed), a preservation case for each step rule, and a progress case (usually with a new factoring lemma). The `%total` checks will report any missing case.
+
+## Conventions
+
+- Derivation variables are named after what they prove, e.g. `E1-num : of E1 num`, `E1~>E1' : step E1 E1'`, `N1+N2=N3 : cadd ...`.
+- Commented-out blocks (`%{ ... }%`) in `preservation.elf` and the `%prove` lines are intentional teaching material (an explicitly typed version of a case, a deliberately invalid proof, and Twelf's automated prover failing on progress). Keep them.
+- The paper cites line numbers in these files as of tag `v1.0`. Edits on `master` don't break those citations, but keep this in mind when the paper and the code are discussed together.
