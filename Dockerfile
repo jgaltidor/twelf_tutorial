@@ -1,7 +1,8 @@
 # check=skip=FromPlatformFlagConstDisallowed
 # Pinned Twelf toolchain for checking the proofs in this repository.
 #
-# Builds Twelf from source (github.com/standardml/twelf, pinned by commit)
+# Builds Twelf from source (github.com/standardml/twelf, pinned by commit;
+# its newest release tag, v1.7.1, dates from 2011, while main has later fixes)
 # with MLton on a digest-pinned Ubuntu 24.04 image, so the checker can never
 # change underneath the proofs. The image holds only the toolchain; the
 # repository is mounted at /workdir and checked by check.sh.

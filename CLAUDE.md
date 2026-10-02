@@ -44,4 +44,6 @@ Adding a new expression form means touching every layer: a constructor in `synta
 
 - Derivation variables are named after what they prove, e.g. `E1-num : of E1 num`, `E1~>E1' : step E1 E1'`, `N1+N2=N3 : cadd ...`.
 - Commented-out blocks (`%{ ... }%`) in `preservation.elf` and the `%prove` lines are intentional teaching material (an explicitly typed version of a case, a deliberately invalid proof, and Twelf's automated prover failing on progress). Keep them.
-- The paper cites line numbers in these files as of tag `v1.0`. Edits on `master` don't break those citations, but keep this in mind when the paper and the code are discussed together.
+- The paper (github.com/jgaltidor/typetheory_paper; locally `~/Documents/mywork/projects/writing/typetheory_paper_prj/typetheory_paper`) cites line numbers and quotes code and Twelf output from these files as of tag `v1.0`. Edits on `master` don't break those citations, but if an edit moves cited lines or changes quoted code, the paper must be updated, a new tag created here, and the paper's citation and links pointed at it. The paper's `CLAUDE.md` lists every cited line.
+- Never write Twelf output by hand for the paper; generate it with `./check.sh` in the Docker image.
+- Don't add a copy of the paper PDF here; link to the latest release of typetheory_paper instead.
