@@ -33,6 +33,12 @@ refer to tag [`v1.0`][v1.0] of this repository.
     More detailed slide presentation of Twelf and Twelf
     encoding of *MiniLang*.
 
+The slides date from 2013 (`typetheory_slides.pdf`) and 2015
+(`twelf_slides.pdf`) and predate later corrections to the paper,
+so they may differ from it in details such as quoted Twelf output
+and line numbers.
+Where they differ, the paper is authoritative.
+
 ### Twelf Files
  * [`sources.cfg`](sources.cfg):
     Tells Twelf the files to read and the order in which to process them.
@@ -72,6 +78,8 @@ docker run --rm --platform linux/amd64 -v "$PWD":/workdir twelf-tutorial
 This runs [`check.sh`](check.sh), which loads `sources.cfg` and both
 test files and prints `twelf-check: all files OK` if Twelf accepts
 everything.
+GitHub Actions runs the same check on every push and pull request
+([`.github/workflows/check.yml`](.github/workflows/check.yml)).
 MLton has no Linux arm64 build, so the image is always `linux/amd64`;
 on Apple Silicon, Docker Desktop runs it under emulation.
 The [`.devcontainer/`](.devcontainer) folder opens the same image in

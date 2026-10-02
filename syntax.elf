@@ -26,7 +26,7 @@ eps : str. %% epsilon
 , : char -> str -> str. %infix right 10 ,.
 %worlds () (str).
 
-%% Auxilary judgments for wrapping objects (values) as expressions
+%% Auxiliary judgments for wrapping objects (values) as expressions
 enat : nat -> exp.
 estr : str -> exp.
 
