@@ -36,7 +36,7 @@ refer to tag [`v1.0`][v1.0] of this repository.
 The slides date from 2013 (`typetheory_slides.pdf`) and 2015
 (`twelf_slides.pdf`) and predate later corrections to the paper,
 so they may differ from it in details such as quoted Twelf output
-and line numbers.
+and line numbers, and their link to the Twelf Live Server no longer works.
 Where they differ, the paper is authoritative.
 
 ### Twelf Files
