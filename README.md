@@ -15,20 +15,20 @@ This package is a tutorial on Twelf and type theory.
 Concepts are presented using a *Twelf encoding* of
 programming language *MiniLang*.
 *MiniLang* is a language of numbers and strings
-that is rigorously defined in file
-[`typetheory_paper.pdf`](typetheory_paper.pdf).
-The LaTeX source of the paper is in the
+that is rigorously defined in the paper
+[`typetheory_paper.pdf`][paper_pdf].
+The paper, its LaTeX source, and its released PDFs are in the
 [typetheory_paper][paper_repo] repository.
 Line numbers that the paper cites in the Twelf files
 refer to tag [`v1.0`][v1.0] of this repository.
 
 ### Documentation
- * [`typetheory_paper.pdf`](typetheory_paper.pdf):
+ * [`typetheory_paper.pdf`][paper_pdf] (latest release of the paper):
     Presents a type theory tutorial using *MiniLang* as an
     example language for presenting concepts.
  * [`typetheory_slides.pdf`](typetheory_slides.pdf):
     Slide presentation of material in
-    [`typetheory_paper.pdf`](typetheory_paper.pdf).
+    [`typetheory_paper.pdf`][paper_pdf].
  * [`twelf_slides.pdf`](twelf_slides.pdf):
     More detailed slide presentation of Twelf and Twelf
     encoding of *MiniLang*.
@@ -60,7 +60,26 @@ Running Twelf
 -------------
 The Twelf Live Server that previously let you run Twelf
 in a web browser is no longer available.
-To run these files, install Twelf by following the
+The easiest way to check the proofs is with the pinned
+toolchain in [`Dockerfile`](Dockerfile), which builds Twelf
+from source with MLton:
+
+```sh
+docker build --platform linux/amd64 -t twelf-tutorial .
+docker run --rm --platform linux/amd64 -v "$PWD":/workdir twelf-tutorial
+```
+
+This runs [`check.sh`](check.sh), which loads `sources.cfg` and both
+test files and prints `twelf-check: all files OK` if Twelf accepts
+everything.
+MLton has no Linux arm64 build, so the image is always `linux/amd64`;
+on Apple Silicon, Docker Desktop runs it under emulation.
+The [`.devcontainer/`](.devcontainer) folder opens the same image in
+VS Code, with `twelf-server` on the `PATH`.
+It also installs Claude Code (the VS Code extension and the `claude` CLI),
+whose login and settings persist in a Docker volume.
+
+To install Twelf directly instead, follow the
 instructions on the [Twelf download page][twelf_download].
 
 
@@ -68,4 +87,5 @@ instructions on the [Twelf download page][twelf_download].
 [hoas]: https://twelf.org/wiki/higher-order-abstract-syntax/
 [twelf_download]: https://twelf.org/download/
 [paper_repo]: https://github.com/jgaltidor/typetheory_paper
+[paper_pdf]: https://github.com/jgaltidor/typetheory_paper/releases/latest/download/typetheory_paper.pdf
 [v1.0]: https://github.com/jgaltidor/twelf_tutorial/tree/v1.0

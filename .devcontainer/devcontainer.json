@@ -1,0 +1,28 @@
+{
+  "name": "Twelf Tutorial (Twelf + MLton)",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": "..",
+    "options": ["--platform=linux/amd64"]
+  },
+  "runArgs": ["--platform=linux/amd64"],
+  "workspaceFolder": "/workdir",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workdir,type=bind",
+  "mounts": [
+    "source=claude-code-config-${devcontainerId},target=/root/.claude,type=volume"
+  ],
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/root/.claude"
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/root/.local/bin"
+  },
+  "postCreateCommand": "curl -fsSL https://claude.ai/install.sh | bash",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code"
+      ]
+    }
+  }
+}

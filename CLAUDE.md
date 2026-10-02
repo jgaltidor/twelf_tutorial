@@ -4,11 +4,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A tutorial on Twelf and type theory: a Twelf (LF) encoding of *MiniLang*, a small language of numbers and strings, together with machine-checked proofs of type safety (preservation and progress). The PDFs (`typetheory_paper.pdf`, `typetheory_slides.pdf`, `twelf_slides.pdf`) are prebuilt; the paper's LaTeX source lives in a separate repo (github.com/jgaltidor/typetheory_paper), so don't try to rebuild or edit them here.
+A tutorial on Twelf and type theory: a Twelf (LF) encoding of *MiniLang*, a small language of numbers and strings, together with machine-checked proofs of type safety (preservation and progress). The slide PDFs (`typetheory_slides.pdf`, `twelf_slides.pdf`) are prebuilt; don't try to rebuild or edit them here. The paper itself lives in a separate repo (github.com/jgaltidor/typetheory_paper), which publishes `typetheory_paper.pdf` as a GitHub Release asset; the README links to the latest release rather than keeping a copy here.
 
 ## Checking the proofs
 
-There is no build system; "building" means having Twelf typecheck the files. Twelf is installed separately (https://twelf.org/download/). From `twelf-server` in the repo root:
+There is no build system; "building" means having Twelf typecheck the files. `./check.sh` does it all and exits non-zero if Twelf rejects anything. Twelf isn't installed on the host; use the pinned image in `Dockerfile` (Twelf built from a pinned commit with MLton, `linux/amd64` only because MLton has no Linux arm64 build), or the devcontainer, which uses the same image:
+
+```sh
+docker build --platform linux/amd64 -t twelf-tutorial .
+docker run --rm --platform linux/amd64 -v "$PWD":/workdir twelf-tutorial   # runs ./check.sh
+```
+
+Build and run with the same `--platform` flag; with Docker's containerd image store, an image built without it can't be run with `--platform linux/amd64`.
+
+Interactively, from `twelf-server` in the repo root:
 
 ```
 make sources.cfg          % load and check all core files in order
