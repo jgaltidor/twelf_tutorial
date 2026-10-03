@@ -85,7 +85,19 @@ on Apple Silicon, Docker Desktop runs it under emulation.
 The [`.devcontainer/`](.devcontainer) folder opens the same image in
 VS Code, with `twelf-server` on the `PATH`.
 It also installs Claude Code (the VS Code extension and the `claude` CLI),
-whose login and settings persist in a Docker volume.
+whose login and settings persist in a Docker volume, the
+[Twelf Extension Pack](https://marketplace.visualstudio.com/items?itemName=ivan-m.twelf-extension-pack)
+(syntax highlighting for `.elf` files, plus commands to run `twelf-server`
+on the current file or `sources.cfg`, with errors shown in the Problems tab),
+and the GitHub Actions extension for editing the CI workflow.
+
+To check the proofs in the editor, first run **Twelf: Load configuration**
+(the second Twelf button in the editor toolbar) and choose `sources.cfg`;
+it loads and checks all the core files in order.
+**Twelf: Run current file** loads only the open file, so on its own it fails
+with "Undeclared identifier" errors for any file that depends on earlier ones,
+such as `preservation.elf`; after loading the configuration, it works on any
+file, including the two test files.
 
 To install Twelf directly instead, follow the
 instructions on the [Twelf download page][twelf_download].

@@ -21,6 +21,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
+        "ivan-m.twelf-extension-pack",
+        "github.vscode-github-actions",
         "anthropic.claude-code"
       ]
     }
