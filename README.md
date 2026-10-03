@@ -97,13 +97,22 @@ defined in [`.vscode/tasks.json`](.vscode/tasks.json). It runs `check.sh`
 in a fresh `twelf-server` and lists any Twelf errors in the Problems tab,
 linked to their location in the source.
 
-To use the extension's own commands instead, first run **Twelf: Load configuration**
-(the second Twelf button in the editor toolbar) and choose `sources.cfg`;
-it loads and checks all the core files in order.
-**Twelf: Run current file** loads only the open file, so on its own it fails
-with "Undeclared identifier" errors for any file that depends on earlier ones,
-such as `preservation.elf`; after loading the configuration, it works on any
-file, including the two test files.
+The extension's commands talk to a single `twelf-server` that keeps its state
+between commands; it is separate from the one the build task starts, so running
+the build task loads nothing into it.
+Twelf files have no import mechanism: a file can only use what is already
+loaded in the server. So, as in Twelf's own
+[Emacs mode](https://twelf.org/wiki/twelf-with-emacs/)
+("load your entire project … when you start working"), use the extension like this:
+
+1. When you start working, run **Twelf: Load configuration** (the button next
+   to the play button in the editor toolbar) and choose `sources.cfg`. This loads
+   and checks all the core files in order.
+2. Then use **Twelf: Run current file** (the play button) to reload the file you
+   are editing, including the two test files.
+
+Pressing the play button without step 1 fails with "Undeclared identifier"
+errors for any file that depends on earlier ones, such as `preservation.elf`.
 
 To install Twelf directly instead, follow the
 instructions on the [Twelf download page][twelf_download].
