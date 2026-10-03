@@ -91,7 +91,13 @@ whose login and settings persist in a Docker volume, the
 on the current file or `sources.cfg`, with errors shown in the Problems tab),
 and the GitHub Actions extension for editing the CI workflow.
 
-To check the proofs in the editor, first run **Twelf: Load configuration**
+The simplest way to check every proof from VS Code is the build task
+**Twelf: check all proofs** (<kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>),
+defined in [`.vscode/tasks.json`](.vscode/tasks.json). It runs `check.sh`
+in a fresh `twelf-server` and lists any Twelf errors in the Problems tab,
+linked to their location in the source.
+
+To use the extension's own commands instead, first run **Twelf: Load configuration**
 (the second Twelf button in the editor toolbar) and choose `sources.cfg`;
 it loads and checks all the core files in order.
 **Twelf: Run current file** loads only the open file, so on its own it fails

@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Twelf: check all proofs",
+      "detail": "Run ./check.sh: load sources.cfg and both test files in a fresh twelf-server",
+      "type": "shell",
+      "command": "./check.sh",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "clear": true
+      },
+      "problemMatcher": {
+        "owner": "twelf",
+        "source": "twelf",
+        "fileLocation": ["autoDetect", "${workspaceFolder}"],
+        "pattern": [
+          {
+            "regexp": "^(.+\\.(?:elf|quy|cfg)):(\\d+)\\.(\\d+)-(\\d+)\\.(\\d+) (Error|Warning):\\s*$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "endLine": 4,
+            "endColumn": 5,
+            "severity": 6
+          },
+          {
+            "regexp": "^(.+)$",
+            "message": 1
+          }
+        ]
+      }
+    }
+  ]
+}
