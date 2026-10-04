@@ -24,8 +24,6 @@ subtype/int/real : subtype int real.
 
 subtype/refl : {T:typ} subtype T T.
 
-foo : subtype num num = subtype/refl num.
-
 subtype/trans :
   subtype T1 T2 ->
   subtype T2 T3 ->
