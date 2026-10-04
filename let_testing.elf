@@ -1,0 +1,12 @@
+%{ let_testing.elf }%
+
+% Example queries on let x = 1 in x + 0.
+
+% Typing: of/let types the body under the hypothesis that x has type num.
+%solve D-let : of (let (enat (s z)) ([x] add x (enat z))) num.
+
+% Evaluation: step/letV substitutes the value 1 for x by applying the body.
+%solve _ : step (let (enat (s z)) ([x] add x (enat z))) E.
+
+% Progress applied to the typing derivation above.
+%solve _ : progress D-let NS.

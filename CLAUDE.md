@@ -23,9 +23,10 @@ Interactively, from `twelf-server` in the repo root:
 make sources.cfg          % load and check all core files in order
 loadFile test_typing.elf  % optional: example derivations (%solve)
 loadFile progress_testing.elf
+loadFile let_testing.elf
 ```
 
-`sources.cfg` sets the load order: `syntax.elf` → `typing.elf` → `evaluation.elf` → `preservation.elf` → `progress.elf`. Each file depends on the ones before it. The two test files are deliberately left out of `sources.cfg` and must be loaded after it.
+`sources.cfg` sets the load order: `syntax.elf` → `typing.elf` → `evaluation.elf` → `preservation.elf` → `progress.elf`. Each file depends on the ones before it. The three test files are deliberately left out of `sources.cfg` and must be loaded after it. Keep `test_typing.elf` unchanged: the paper and `twelf_slides` quote its Twelf output. New examples go in another test file, as the `let` examples do in `let_testing.elf`.
 
 `exercises/numsubtype/` holds the subtyping exercise from the "More Exercises" slide of `twelf_slides` (starter and solution). It is self-contained and declares its own `typ`, `num`, `of`, etc., which clash with MiniLang's, so `check.sh` loads each exercise file after `reset`; load it the same way interactively. Its `sources.cfg` lists only the starter, for students using the extension's "Load configuration". These files moved here in October 2026 from the home page repo (jgaltidor.github.io), which no longer hosts them.
 

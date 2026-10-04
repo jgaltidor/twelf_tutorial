@@ -59,7 +59,11 @@ the paper is authoritative.
     Provides example queries that evaluate an expression and
     apply the progress proof.
 
-The two test files are not listed in `sources.cfg`;
+ * [`let_testing.elf`](let_testing.elf):
+    Example queries on a `let` expression: its typing derivation,
+    its evaluation step, and the progress proof applied to it.
+
+The three test files are not listed in `sources.cfg`;
 load them after the files in `sources.cfg` have been loaded.
 
 ### Exercises
@@ -87,9 +91,9 @@ docker build --platform linux/amd64 -t twelf-tutorial .
 docker run --rm --platform linux/amd64 -v "$PWD":/workdir twelf-tutorial
 ```
 
-This runs [`check.sh`](check.sh), which loads `sources.cfg`, both
-test files, and the exercise files, and prints `twelf-check: all files OK` if Twelf accepts
-everything.
+This runs [`check.sh`](check.sh), which loads `sources.cfg`, the
+three test files, and the exercise files, and prints
+`twelf-check: all files OK` if Twelf accepts everything.
 GitHub Actions runs the same check on every push and pull request
 ([`.github/workflows/check.yml`](.github/workflows/check.yml)).
 MLton has no Linux arm64 build, so the image is always `linux/amd64`;
@@ -121,7 +125,7 @@ loaded in the server. So, as in Twelf's own
    to the play button in the editor toolbar) and choose `sources.cfg`. This loads
    and checks all the core files in order.
 2. Then use **Twelf: Run current file** (the play button) to reload the file you
-   are editing, including the two test files.
+   are editing, including the three test files.
 
 Pressing the play button without step 1 fails with "Undeclared identifier"
 errors for any file that depends on earlier ones, such as `preservation.elf`.
