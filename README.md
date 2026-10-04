@@ -26,19 +26,18 @@ refer to tag [`v1.0`][v1.0] of this repository.
  * [`typetheory_paper.pdf`][paper_pdf] (latest release of the paper):
     Presents a type theory tutorial using *MiniLang* as an
     example language for presenting concepts.
- * [`typetheory_slides.pdf`](typetheory_slides.pdf):
+ * [`typetheory_slides.pdf`][tt_slides_pdf] (latest release):
     Slide presentation of material in
     [`typetheory_paper.pdf`][paper_pdf].
     Its LaTeX source is in the [typetheory_slides][tt_slides_repo] repository.
- * [`twelf_slides.pdf`](twelf_slides.pdf):
+ * [`twelf_slides.pdf`][twelf_slides_pdf] (latest release):
     More detailed slide presentation of Twelf and Twelf
     encoding of *MiniLang*.
     Its LaTeX source is in the [twelf_slides][twelf_slides_repo] repository.
 
 The slides were first written in 2013 (`typetheory_slides.pdf`) and
-2014–2016 (`twelf_slides.pdf`). The PDFs here were rebuilt in October 2026
-from their source repositories, with corrections that bring them in line
-with the paper and the Twelf files. Where the slides and the paper differ,
+2014–2016 (`twelf_slides.pdf`), and corrected in October 2026 to match
+the paper and the Twelf files. Where the slides and the paper differ,
 the paper is authoritative.
 
 ### Twelf Files
@@ -128,3 +127,5 @@ instructions on the [Twelf download page][twelf_download].
 [v1.0]: https://github.com/jgaltidor/twelf_tutorial/tree/v1.0
 [tt_slides_repo]: https://github.com/jgaltidor/typetheory_slides
 [twelf_slides_repo]: https://github.com/jgaltidor/twelf_slides
+[tt_slides_pdf]: https://github.com/jgaltidor/typetheory_slides/releases/latest/download/typetheory_slides.pdf
+[twelf_slides_pdf]: https://github.com/jgaltidor/twelf_slides/releases/latest/download/twelf_slides.pdf
