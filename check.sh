@@ -1,12 +1,18 @@
 #!/bin/sh
 # Check every proof with Twelf: load sources.cfg (the core files, in order),
-# then the two test files. Exits non-zero if Twelf rejects anything.
+# then the two test files, then each exercise file in a fresh signature
+# (reset), since the exercises declare their own typ, of, etc.
+# Exits non-zero if Twelf rejects anything.
 set -e
 cd "$(dirname "$0")"
 out=$(twelf-server <<'CMDS'
 make sources.cfg
 loadFile test_typing.elf
 loadFile progress_testing.elf
+reset
+loadFile exercises/numsubtype/numsubtype_starter.elf
+reset
+loadFile exercises/numsubtype/numsubtype_solution.elf
 quit
 CMDS
 )

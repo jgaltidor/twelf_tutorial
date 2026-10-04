@@ -1,0 +1,52 @@
+%{ numsubtype_solution.elf }%
+
+% Terms
+trm : type.
+
+zero : trm.
+pi : trm.
+img : trm.
+
+% Types
+typ : type.
+
+num : typ.
+real : typ.
+complex : typ.
+int : typ.
+
+% Subtyping Rules
+
+subtype : typ -> typ -> type.
+subtype/complex/num : subtype complex num.
+subtype/real/num : subtype real num.
+subtype/int/real : subtype int real.
+
+subtype/refl : {T:typ} subtype T T.
+
+foo : subtype num num = subtype/refl num.
+
+subtype/trans :
+  subtype T1 T2 ->
+  subtype T2 T3 ->
+  subtype T1 T3.
+
+of : trm -> typ -> type.
+
+of/zero : of zero int.
+of/pi : of pi real.
+of/img : of img complex.
+
+of/subsumption :
+  of E T1 ->
+  subtype T1 T2 ->
+  of E T2.
+
+D : of zero num =
+  of/subsumption
+   (of/zero : of zero int)
+   (subtype/trans
+      (subtype/int/real : subtype int real)
+      (subtype/real/num : subtype real num)
+     : subtype int num).
+

@@ -62,6 +62,17 @@ the paper is authoritative.
 The two test files are not listed in `sources.cfg`;
 load them after the files in `sources.cfg` have been loaded.
 
+### Exercises
+ * [`exercises/numsubtype/`](exercises/numsubtype):
+    The subtyping exercise from the "More Exercises" slide of
+    [`twelf_slides.pdf`][twelf_slides_pdf]: define reflexive and
+    transitive subtyping rules and a subsumption rule for a small
+    language of numbers, then prove that `0` has type `num`.
+    Start from [`numsubtype_starter.elf`](exercises/numsubtype/numsubtype_starter.elf);
+    a solution is in [`numsubtype_solution.elf`](exercises/numsubtype/numsubtype_solution.elf).
+    The exercise is self-contained: it does not use the *MiniLang* files,
+    so load it in a fresh Twelf session (or after `reset`).
+
 
 Running Twelf
 -------------
@@ -76,8 +87,8 @@ docker build --platform linux/amd64 -t twelf-tutorial .
 docker run --rm --platform linux/amd64 -v "$PWD":/workdir twelf-tutorial
 ```
 
-This runs [`check.sh`](check.sh), which loads `sources.cfg` and both
-test files and prints `twelf-check: all files OK` if Twelf accepts
+This runs [`check.sh`](check.sh), which loads `sources.cfg`, both
+test files, and the exercise files, and prints `twelf-check: all files OK` if Twelf accepts
 everything.
 GitHub Actions runs the same check on every push and pull request
 ([`.github/workflows/check.yml`](.github/workflows/check.yml)).

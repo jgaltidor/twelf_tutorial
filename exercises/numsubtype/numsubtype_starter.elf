@@ -1,0 +1,11 @@
+%{ numsubtype_starter.elf }%
+
+% Terms
+trm : type.
+
+zero : trm.
+pi : trm.
+img : trm.
+
+% Types
+typ : type.

@@ -3,7 +3,7 @@
   "tasks": [
     {
       "label": "Twelf: check all proofs",
-      "detail": "Run ./check.sh: load sources.cfg and both test files in a fresh twelf-server",
+      "detail": "Run ./check.sh: load sources.cfg, both test files, and the exercises in a fresh twelf-server",
       "type": "shell",
       "command": "./check.sh",
       "group": {
