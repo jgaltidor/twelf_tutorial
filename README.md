@@ -9,6 +9,77 @@ The Twelf system provides useful software features,
 such as [higher-order abstract syntax][hoas], for reasoning
 about formal languages and deductive logics.
 
+To check the proofs right away, jump to [Quick start](#quick-start).
+
+Contents
+---------
+This package is a tutorial on Twelf and type theory.
+Concepts are presented using a *Twelf encoding* of
+programming language *MiniLang*.
+*MiniLang* is a language of numbers and strings
+that is rigorously defined in the paper
+[`typetheory_paper.pdf`][paper_pdf].
+The paper, its LaTeX source, and its released PDFs are in the
+[typetheory_paper][paper_repo] repository.
+Line numbers that the paper cites in the Twelf files
+refer to tag [`v1.0`][v1.0] of this repository.
+
+### Documentation
+ * [`typetheory_paper.pdf`][paper_pdf] (latest release of the paper):
+    Presents a type theory tutorial using *MiniLang* as an
+    example language for presenting concepts.
+ * [`typetheory_slides.pdf`][tt_slides_pdf] (latest release):
+    Slide presentation of material in
+    [`typetheory_paper.pdf`][paper_pdf].
+    Its LaTeX source is in the [typetheory_slides][tt_slides_repo] repository.
+ * [`twelf_slides.pdf`][twelf_slides_pdf] (latest release):
+    More detailed slide presentation of Twelf and Twelf
+    encoding of *MiniLang*.
+    Its LaTeX source is in the [twelf_slides][twelf_slides_repo] repository.
+
+The slides were first written in 2013 (`typetheory_slides.pdf`) and
+2014–2016 (`twelf_slides.pdf`), and corrected in October 2026 to match
+the paper and the Twelf files. Where the slides and the paper differ,
+the paper is authoritative.
+
+### Twelf Files
+ * [`sources.cfg`](sources.cfg):
+    Tells Twelf the files to read and the order in which to process them.
+ * [`syntax.elf`](syntax.elf):
+    Twelf encoding of *MiniLang*'s syntax.
+ * [`typing.elf`](typing.elf):
+    Twelf encoding of *MiniLang*'s typing rules or static semantics.
+ * [`evaluation.elf`](evaluation.elf):
+    Twelf encoding of *MiniLang*'s evaluation rules or dynamic semantics.
+ * [`preservation.elf`](preservation.elf):
+    Contains the preservation theorem and its proof.
+ * [`progress.elf`](progress.elf):
+    Contains the progress theorem and its proof.
+ * [`test_typing.elf`](test_typing.elf):
+    Provides example judgments that can be automatically derived by Twelf.
+ * [`progress_testing.elf`](progress_testing.elf):
+    Provides example queries that evaluate an expression and
+    apply the progress proof.
+
+ * [`let_testing.elf`](let_testing.elf):
+    Example queries on a `let` expression: its typing derivation,
+    its evaluation step, and the progress proof applied to it.
+
+The three test files are not listed in `sources.cfg`;
+load them after the files in `sources.cfg` have been loaded.
+
+### Exercises
+ * [`exercises/numsubtype/`](exercises/numsubtype):
+    The subtyping exercise from the "More Exercises" slide of
+    [`twelf_slides.pdf`][twelf_slides_pdf]: define reflexive and
+    transitive subtyping rules and a subsumption rule for a small
+    language of numbers, then prove that `0` has type `num`.
+    Start from [`numsubtype_starter.elf`](exercises/numsubtype/numsubtype_starter.elf);
+    a solution is in [`numsubtype_solution.elf`](exercises/numsubtype/numsubtype_solution.elf).
+    The exercise is self-contained: it does not use the *MiniLang* files,
+    so load it in a fresh Twelf session (or after `reset`).
+
+
 Quick start
 -----------
 All you need is [Docker](https://docs.docker.com/get-docker/).
@@ -86,77 +157,8 @@ every proof; errors appear in the Problems tab. See
 
 **Next steps:** read the Twelf files in the order listed in
 [`sources.cfg`](sources.cfg), alongside the paper
-[`typetheory_paper.pdf`][paper_pdf] (see [Contents](#contents) below), then try the
+[`typetheory_paper.pdf`][paper_pdf] (see [Contents](#contents) above), then try the
 [exercise](#exercises).
-
-Contents
----------
-This package is a tutorial on Twelf and type theory.
-Concepts are presented using a *Twelf encoding* of
-programming language *MiniLang*.
-*MiniLang* is a language of numbers and strings
-that is rigorously defined in the paper
-[`typetheory_paper.pdf`][paper_pdf].
-The paper, its LaTeX source, and its released PDFs are in the
-[typetheory_paper][paper_repo] repository.
-Line numbers that the paper cites in the Twelf files
-refer to tag [`v1.0`][v1.0] of this repository.
-
-### Documentation
- * [`typetheory_paper.pdf`][paper_pdf] (latest release of the paper):
-    Presents a type theory tutorial using *MiniLang* as an
-    example language for presenting concepts.
- * [`typetheory_slides.pdf`][tt_slides_pdf] (latest release):
-    Slide presentation of material in
-    [`typetheory_paper.pdf`][paper_pdf].
-    Its LaTeX source is in the [typetheory_slides][tt_slides_repo] repository.
- * [`twelf_slides.pdf`][twelf_slides_pdf] (latest release):
-    More detailed slide presentation of Twelf and Twelf
-    encoding of *MiniLang*.
-    Its LaTeX source is in the [twelf_slides][twelf_slides_repo] repository.
-
-The slides were first written in 2013 (`typetheory_slides.pdf`) and
-2014–2016 (`twelf_slides.pdf`), and corrected in October 2026 to match
-the paper and the Twelf files. Where the slides and the paper differ,
-the paper is authoritative.
-
-### Twelf Files
- * [`sources.cfg`](sources.cfg):
-    Tells Twelf the files to read and the order in which to process them.
- * [`syntax.elf`](syntax.elf):
-    Twelf encoding of *MiniLang*'s syntax.
- * [`typing.elf`](typing.elf):
-    Twelf encoding of *MiniLang*'s typing rules or static semantics.
- * [`evaluation.elf`](evaluation.elf):
-    Twelf encoding of *MiniLang*'s evaluation rules or dynamic semantics.
- * [`preservation.elf`](preservation.elf):
-    Contains the preservation theorem and its proof.
- * [`progress.elf`](progress.elf):
-    Contains the progress theorem and its proof.
- * [`test_typing.elf`](test_typing.elf):
-    Provides example judgments that can be automatically derived by Twelf.
- * [`progress_testing.elf`](progress_testing.elf):
-    Provides example queries that evaluate an expression and
-    apply the progress proof.
-
- * [`let_testing.elf`](let_testing.elf):
-    Example queries on a `let` expression: its typing derivation,
-    its evaluation step, and the progress proof applied to it.
-
-The three test files are not listed in `sources.cfg`;
-load them after the files in `sources.cfg` have been loaded.
-
-### Exercises
- * [`exercises/numsubtype/`](exercises/numsubtype):
-    The subtyping exercise from the "More Exercises" slide of
-    [`twelf_slides.pdf`][twelf_slides_pdf]: define reflexive and
-    transitive subtyping rules and a subsumption rule for a small
-    language of numbers, then prove that `0` has type `num`.
-    Start from [`numsubtype_starter.elf`](exercises/numsubtype/numsubtype_starter.elf);
-    a solution is in [`numsubtype_solution.elf`](exercises/numsubtype/numsubtype_solution.elf).
-    The exercise is self-contained: it does not use the *MiniLang* files,
-    so load it in a fresh Twelf session (or after `reset`).
-
 
 Running Twelf
 -------------
