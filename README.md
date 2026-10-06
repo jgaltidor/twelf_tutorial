@@ -138,9 +138,9 @@ instructions on the [Twelf download page][twelf_download].
 [hoas]: https://twelf.org/wiki/higher-order-abstract-syntax/
 [twelf_download]: https://twelf.org/download/
 [paper_repo]: https://github.com/jgaltidor/typetheory_paper
-[paper_pdf]: https://github.com/jgaltidor/typetheory_paper/releases/latest/download/typetheory_paper.pdf
+[paper_pdf]: https://jgaltidor.github.io/typetheory_paper/typetheory_paper.pdf
 [v1.0]: https://github.com/jgaltidor/twelf_tutorial/tree/v1.0
 [tt_slides_repo]: https://github.com/jgaltidor/typetheory_slides
 [twelf_slides_repo]: https://github.com/jgaltidor/twelf_slides
-[tt_slides_pdf]: https://github.com/jgaltidor/typetheory_slides/releases/latest/download/typetheory_slides.pdf
-[twelf_slides_pdf]: https://github.com/jgaltidor/twelf_slides/releases/latest/download/twelf_slides.pdf
+[tt_slides_pdf]: https://jgaltidor.github.io/typetheory_slides/typetheory_slides.pdf
+[twelf_slides_pdf]: https://jgaltidor.github.io/twelf_slides/twelf_slides.pdf
