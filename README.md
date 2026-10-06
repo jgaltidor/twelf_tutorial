@@ -9,6 +9,86 @@ The Twelf system provides useful software features,
 such as [higher-order abstract syntax][hoas], for reasoning
 about formal languages and deductive logics.
 
+Quick start
+-----------
+All you need is [Docker](https://docs.docker.com/get-docker/).
+(To work in VS Code instead, see step 4.)
+
+**1. Check every proof.**
+
+```sh
+git clone https://github.com/jgaltidor/twelf_tutorial.git
+cd twelf_tutorial
+docker build --platform linux/amd64 -t twelf-tutorial .   # compiles Twelf; takes a few minutes
+docker run --rm --platform linux/amd64 -v "$PWD":/workdir twelf-tutorial
+```
+
+The last line printed should be `twelf-check: all files OK`.
+Twelf typechecks every file, and accepting a `%worlds`/`%total`
+declaration means Twelf has verified that the relation is a total
+function. That is what makes `preservation` and `progress` valid proofs
+of type safety. If Twelf rejects anything, it prints `%% ABORT %%` next to the
+error, and the script prints `twelf-check: FAILED` and exits with status 1.
+You only need to rebuild the image if `Dockerfile` changes; after editing a
+`.elf` file, rerun just the `docker run` line.
+
+**2. Explore interactively.** Start Twelf's server in the container:
+
+```sh
+docker run --rm -it --platform linux/amd64 -v "$PWD":/workdir twelf-tutorial twelf-server
+```
+
+Then type these commands one at a time. Each prints `%% OK %%` when it succeeds:
+
+```
+set chatter 1              (quiet: don't echo every declaration)
+make sources.cfg           (load and check the core files, in order)
+set chatter 3
+loadFile let_testing.elf   (run the example queries on a let expression)
+```
+
+(Don't type the parenthesized comments.) To run your own query, type
+`readDecl`, then a Twelf declaration on the next line:
+
+```
+readDecl
+%solve _ : of (len (estr (a , b , eps))) T.
+```
+
+Twelf answers with the derivation it found, here showing the expression has type `num`:
+
+```
+_ : of (len (estr (a , b , eps))) num = of/len of/str.
+```
+
+Type `quit` to leave the server.
+
+**3. See Twelf reject a broken proof.** In [`preservation.elf`](preservation.elf),
+delete the last case (the clause for `step/letV`, just before `%worlds`)
+and rerun the `docker run` command from step 1. Twelf reports the case
+you removed:
+
+```
+preservation.elf:99.8-99.11 Error:
+Coverage error --- missing cases:
+...
+twelf-check: FAILED
+```
+
+Run `git checkout preservation.elf` to restore it.
+
+**4. Use VS Code (optional).** With the
+[Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+extension, open the folder and choose **Reopen in Container**.
+Then press <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd> to check
+every proof; errors appear in the Problems tab. See
+[Running Twelf](#running-twelf) for details and for working on one file at a time.
+
+**Next steps:** read the Twelf files in the order listed in
+[`sources.cfg`](sources.cfg), alongside the paper
+[`typetheory_paper.pdf`][paper_pdf] (see [Contents](#contents) below), then try the
+[exercise](#exercises).
+
 Contents
 ---------
 This package is a tutorial on Twelf and type theory.
