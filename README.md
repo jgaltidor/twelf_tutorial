@@ -151,9 +151,22 @@ Run `git checkout preservation.elf` to restore it.
 **4. Use VS Code (optional).** With the
 [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 extension, open the folder and choose **Reopen in Container**.
-Then press <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd> to check
-every proof; errors appear in the Problems tab. See
-[Running Twelf](#running-twelf) for details and for working on one file at a time.
+The first time, this builds the image, which takes a few minutes.
+No file is open when the container starts, so:
+
+1. To check every proof at once, press
+   <kbd>Cmd</kbd>/<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>.
+   Errors appear in the Problems tab.
+2. To work with Twelf interactively, open [`sources.cfg`](sources.cfg) from the
+   Explorer. The Twelf buttons appear in the editor's title bar only while a
+   `.cfg` or `.elf` file is the active editor. Click the **ELF ▾** button and choose
+   **Load configuration**. This loads and checks the core files in order;
+   Twelf's output appears in the terminal panel and errors in the Problems tab.
+3. Now open any `.elf` file, for example [`let_testing.elf`](let_testing.elf),
+   and click the play button (**Twelf: Run current file**,
+   <kbd>Ctrl</kbd>+<kbd>Enter</kbd>) to load it into the same session.
+
+See [Running Twelf](#running-twelf) for why step 2 must come before step 3.
 
 **Next steps:** read the Twelf files in the order listed in
 [`sources.cfg`](sources.cfg), alongside the paper
@@ -203,9 +216,11 @@ loaded in the server. So, as in Twelf's own
 [Emacs mode](https://twelf.org/wiki/twelf-with-emacs/)
 ("load your entire project … when you start working"), use the extension like this:
 
-1. When you start working, run **Twelf: Load configuration** (the button next
-   to the play button in the editor toolbar) and choose `sources.cfg`. This loads
-   and checks all the core files in order.
+1. When you start working, open `sources.cfg` and choose **Load configuration**
+   from the **ELF ▾** button in the editor's title bar. This loads and checks
+   all the core files in order. (From an `.elf` file, the Load configuration
+   button next to the play button asks you to pick the `.cfg` file instead.)
+   The Twelf buttons appear only while a `.cfg` or `.elf` file is the active editor.
 2. Then use **Twelf: Run current file** (the play button) to reload the file you
    are editing, including the three test files.
 
